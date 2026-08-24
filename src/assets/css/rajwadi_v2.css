@@ -2193,7 +2193,7 @@ body.lock-scroll {
   top: 0;
   width: 50vw;
   height: 100vh;
-  background-image: url('assets/images/royal_door.png');
+  background-image: url('/assets/images/royal_door.png');
   background-size: cover;
   transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -3566,7 +3566,7 @@ body.lock-scroll {
    ========================================================================== */
 .parallax-section {
   position: relative;
-  background-image: url('assets/images/parallax_saree.png');
+  background-image: url('/assets/images/parallax_saree.png');
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
