@@ -9,6 +9,7 @@ import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import Catalog from './pages/Catalog';
 import ProductDetail from './pages/ProductDetail';
+import Account from './pages/Account';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 
@@ -67,6 +68,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/collections" element={<Catalog />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
         </main>
         <Footer />

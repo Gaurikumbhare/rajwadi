@@ -65,7 +65,7 @@ const Footer = () => {
       </div>
       
       <div className="footer-bottom">
-        <p>&copy; 2026 Rajwadi Royal. All Rights Reserved. Crafted with Premium Vanilla CSS & JS.</p>
+        <p>&copy; 2026 Rajwadi Royal. All Rights Reserved.</p>
       </div>
     </footer>
   );

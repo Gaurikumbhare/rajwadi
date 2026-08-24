@@ -7,6 +7,7 @@ const Catalog = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const initialCategory = searchParams.get('category') || 'All';
+  const searchQuery = searchParams.get('search') || '';
   const { wishlistItems, toggleWishlist } = useAppContext();
   
   const [products, setProducts] = useState(productsData || []);
@@ -30,6 +31,18 @@ const Catalog = () => {
   useEffect(() => {
     let result = [...products];
 
+    // Search query filter (from search bar)
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
+        (p.description && p.description.toLowerCase().includes(q)) ||
+        (p.fabric && p.fabric.toLowerCase().includes(q)) ||
+        (p.color && p.color.toLowerCase().includes(q))
+      );
+    }
+
     if (categories.length > 0) {
       result = result.filter(p => categories.includes(p.category));
     }
@@ -49,7 +62,7 @@ const Catalog = () => {
     // 'featured' leaves the default order
 
     setFilteredProducts(result);
-  }, [categories, colors, fabrics, products, sortType]);
+  }, [categories, colors, fabrics, products, sortType, searchQuery]);
 
   const handleCheckboxChange = (setter, value, state) => {
     if (state.includes(value)) {

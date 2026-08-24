@@ -6,8 +6,21 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { cartItems, wishlistItems, setIsCartOpen, setIsWishlistOpen } = useAppContext();
   const navigate = useNavigate();
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    if (q) {
+      navigate(`/collections?search=${encodeURIComponent(q)}`);
+    } else {
+      navigate('/collections');
+    }
+  };
 
   return (
     <header className="main-header">
@@ -46,13 +59,7 @@ const Header = () => {
                 <Link 
                   to="/collections" 
                   className="nav-link" 
-                  onClick={(e) => {
-                    if (isMenuOpen) {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setIsDropdownOpen(!isDropdownOpen);
-                    }
-                  }}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Collections
                 </Link>
@@ -82,16 +89,16 @@ const Header = () => {
 
         {/* Action Icons */}
         <div className="header-actions">
-          <button className="action-icon-btn" onClick={() => setIsSearchOpen(true)} title="Search">
+          <button className="action-icon-btn" onClick={() => { setIsSearchOpen(!isSearchOpen); setSearchQuery(''); }} title="Search">
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
           <a href="#" className="action-icon-btn" title="Wishlist" onClick={(e) => { e.preventDefault(); setIsWishlistOpen(true); }}>
             <i className="fa-regular fa-heart"></i>
             {wishlistItems?.length > 0 && <span className="cart-badge">{wishlistItems.length}</span>}
           </a>
-          <a href="#" className="action-icon-btn account-btn" title="Account" onClick={(e) => { e.preventDefault(); alert('Account authentication portal coming soon!'); }}>
+          <Link to="/account" className="action-icon-btn account-btn" title="Account">
             <i className="fa-regular fa-user"></i>
-          </a>
+          </Link>
           <button className="action-icon-btn" title="Shopping Cart" onClick={() => setIsCartOpen(true)}>
             <i className="fa-solid fa-bag-shopping"></i>
             <span className="cart-badge">{cartItems?.length || 0}</span>
@@ -99,14 +106,21 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Dropdown/Slide-down Search Overlay Bar */}
+      {/* Search Overlay Bar — like old site */}
       {isSearchOpen && (
-        <div className="search-overlay-bar" style={{ display: 'block' }}>
-          <div className="search-overlay-container">
-            <input type="text" className="search-overlay-input" placeholder="Search for Sarees, Lehengas, Sherwanis..." />
-            <button className="search-overlay-btn"><i className="fa-solid fa-magnifying-glass"></i></button>
-            <button className="search-overlay-close-btn" onClick={() => setIsSearchOpen(false)}><i className="fa-solid fa-xmark"></i></button>
-          </div>
+        <div className="search-overlay-bar active" style={{ display: 'block' }}>
+          <form className="search-overlay-container" onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              className="search-overlay-input"
+              placeholder="Search for Sarees, Lehengas, Sherwanis..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+            <button type="submit" className="search-overlay-btn"><i className="fa-solid fa-magnifying-glass"></i></button>
+            <button type="button" className="search-overlay-close-btn" onClick={() => setIsSearchOpen(false)}><i className="fa-solid fa-xmark"></i></button>
+          </form>
         </div>
       )}
     </header>
