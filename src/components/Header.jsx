@@ -5,7 +5,7 @@ import { useAppContext } from '../context/AppContext';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState('');
   const { cartItems, wishlistItems, setIsCartOpen, setIsWishlistOpen } = useAppContext();
   const navigate = useNavigate();
@@ -54,33 +54,8 @@ const Header = () => {
             <li className="nav-item"><Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
             <li className="nav-item"><Link to="/about" className="nav-link" onClick={() => setIsMenuOpen(false)}>About Us</Link></li>
             <li className="nav-item"><Link to="/story" className="nav-link" onClick={() => setIsMenuOpen(false)}>Our Story</Link></li>
-            <li className={`nav-item has-dropdown ${isDropdownOpen ? 'open' : ''}`}>
-              <div className="nav-link-wrapper">
-                <Link 
-                  to="/collections" 
-                  className="nav-link" 
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Collections
-                </Link>
-                <button 
-                  className="mobile-submenu-toggle" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsDropdownOpen(!isDropdownOpen);
-                  }}
-                >
-                  <i className="fa-solid fa-chevron-down"></i>
-                </button>
-              </div>
-              <ul className="dropdown-menu">
-                <li><Link to="/collections?category=Saree" onClick={() => setIsMenuOpen(false)}>Saree</Link></li>
-                <li><Link to="/collections?category=Lehenga" onClick={() => setIsMenuOpen(false)}>Lehenga Choli</Link></li>
-                <li><Link to="/collections?category=Salwar Kameez" onClick={() => setIsMenuOpen(false)}>Salwar Kameez</Link></li>
-                <li><Link to="/collections?category=Sherwani" onClick={() => setIsMenuOpen(false)}>Grooms Wear</Link></li>
-                <li><Link to="/collections" onClick={() => setIsMenuOpen(false)}>All Catalog</Link></li>
-              </ul>
+            <li className="nav-item">
+              <Link to="/collections" className="nav-link" onClick={() => setIsMenuOpen(false)}>Collections</Link>
             </li>
             <li className="nav-item"><Link to="/blog" className="nav-link" onClick={() => setIsMenuOpen(false)}>Blog</Link></li>
             <li className="nav-item"><Link to="/contact" className="nav-link" onClick={() => setIsMenuOpen(false)}>Contact Us</Link></li>

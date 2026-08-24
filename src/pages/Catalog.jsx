@@ -18,6 +18,7 @@ const Catalog = () => {
   const [categories, setCategories] = useState(initialCategory !== 'All' ? [initialCategory] : []);
   const [colors, setColors] = useState([]);
   const [fabrics, setFabrics] = useState([]);
+  const [priceRanges, setPriceRanges] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -53,6 +54,18 @@ const Catalog = () => {
       result = result.filter(p => fabrics.includes(p.fabric));
     }
 
+    if (priceRanges.length > 0) {
+      result = result.filter(p => {
+        return priceRanges.some(range => {
+          if (range === 'Under ₹100') return p.price < 100;
+          if (range === '₹100 - ₹200') return p.price >= 100 && p.price <= 200;
+          if (range === '₹200 - ₹300') return p.price >= 200 && p.price <= 300;
+          if (range === 'Over ₹300') return p.price > 300;
+          return false;
+        });
+      });
+    }
+
     // Apply Sorting
     if (sortType === 'price-low') {
       result.sort((a, b) => a.price - b.price);
@@ -62,7 +75,7 @@ const Catalog = () => {
     // 'featured' leaves the default order
 
     setFilteredProducts(result);
-  }, [categories, colors, fabrics, products, sortType, searchQuery]);
+  }, [categories, colors, fabrics, priceRanges, products, sortType, searchQuery]);
 
   const handleCheckboxChange = (setter, value, state) => {
     if (state.includes(value)) {
@@ -82,13 +95,12 @@ const Catalog = () => {
               <i className="fa-solid fa-xmark"></i>
             </button>
           </div>
-
           <div className="filter-group">
-            <h4 className="filter-group-title">Category</h4>
+            <h4 className="filter-group-title">Price</h4>
             <div className="filter-options">
-              {['Saree', 'Lehenga', 'Salwar Kameez', 'Sherwani'].map(cat => (
-                <label key={cat} className="filter-checkbox-label">
-                  <input type="checkbox" checked={categories.includes(cat)} onChange={() => handleCheckboxChange(setCategories, cat, categories)} /> {cat}
+              {['Under ₹100', '₹100 - ₹200', '₹200 - ₹300', 'Over ₹300'].map(range => (
+                <label key={range} className="filter-checkbox-label">
+                  <input type="checkbox" checked={priceRanges.includes(range)} onChange={() => handleCheckboxChange(setPriceRanges, range, priceRanges)} /> {range}
                 </label>
               ))}
             </div>
